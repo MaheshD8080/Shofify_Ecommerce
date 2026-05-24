@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopify | Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="CheckoutPage">
+    <nav class="topbar navbar navbar-expand-lg navbar-dark bg-dark py-2">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Shopify</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMobile">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMobile">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item me-3"><a class="nav-link" href="cart.html">Cart</a></li>
+            <li class="nav-item me-3"><a class="nav-link" href="login.html">Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-5">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="card rounded-4 shadow-sm p-4">
+            <h2 class="h4 mb-4">Payment Method</h2>
+            <form id="checkout-form" class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Email</label>
+                <input id="checkout-email" type="email" class="form-control" placeholder="you@example.com" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Card Number</label>
+                <input id="checkout-card" type="text" class="form-control" placeholder="4242 4242 4242 4242" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Expiry</label>
+                <input id="checkout-expiry" type="text" class="form-control" placeholder="MM/YY" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">CVV</label>
+                <input id="checkout-cvv" type="text" class="form-control" placeholder="123" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Payment Method</label>
+                <select id="checkout-method" class="form-select">
+                  <option>Credit / Debit Card</option>
+                  <option>UPI</option>
+                  <option>Net Banking</option>
+                  <option>Wallet</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Shipping Address</label>
+                <textarea id="checkout-address" class="form-control" rows="3" placeholder="Enter your shipping address" required></textarea>
+              </div>
+              <div class="col-12 text-end">
+                <button type="submit" class="btn btn-primary btn-lg px-5">Place Order</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card rounded-4 shadow-sm p-4 bg-light">
+            <h4 class="mb-3">Order Summary</h4>
+            <div id="checkout-summary" class="mb-4"></div>
+            <div class="d-flex justify-content-between mb-2">
+              <p class="mb-0 text-muted">Subtotal</p>
+              <p class="mb-0 fw-bold" id="checkout-subtotal">₹0</p>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <p class="mb-0 text-muted">Shipping</p>
+              <p class="mb-0 fw-bold">₹50</p>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <p class="mb-0 text-muted">Discount</p>
+              <p class="mb-0 text-success">-₹20</p>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="mb-0 fw-bold">Total</p>
+              <p class="mb-0 fs-4 fw-bold" id="checkout-total">₹0</p>
+            </div>
+            <div class="alert alert-info mt-4" role="alert">
+              Enjoy free returns, fast shipping, and secure checkout for every order.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer bg-dark text-white py-4">
+      <div class="container text-center">
+        <p class="mb-0">© 2026 Shopify. Checkout experience designed for buyers.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/site.js"></script>
+  </body>
+</html>

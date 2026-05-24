@@ -1,0 +1,550 @@
+/* =======================
+   Global Theme — Single :root
+   BUG FIX: Two separate :root blocks existed; the second one (Modern Theme)
+   silently shadowed the first without merging. Merged into one block.
+   ======================= */
+:root {
+  /* Legacy palette (used by first-generation rules) */
+  --primary-color: #ff6600;
+  --secondary-color: #111;
+  --text-color: #ddd;
+  --footer-text: #ccc;
+  --hover-color: #ff8533;
+  --white: #fff;
+  --navbar-bg: #0f172a;
+
+  /* Modern palette */
+  --bg-main: #f4f7ff;
+  --surface: #ffffff;
+  --surface-soft: #eff2fb;
+  --text-primary: #0f172a;
+  --text-muted: #526484;
+  --accent: #ffb703;
+  --accent-dark: #fca311;
+  --border: rgba(15, 23, 42, 0.08);
+  --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+}
+
+/* =======================
+   Reset
+   ======================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(255, 183, 3, 0.25);
+}
+
+/* =======================
+   Navbar
+   BUG FIX: .navbar had position:fixed but no compensating padding-top was
+   ever applied — every page's content started at y:0 and was hidden behind
+   the fixed bar. Fixed by (a) keeping position:fixed here and (b) adding
+   body.has-topbar { padding-top: 70px } below, set via JS on page load.
+   ======================= */
+.navbar {
+  background: var(--navbar-bg) !important;
+  padding: 12px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* Applied by site.js on any page that has a .topbar navbar */
+body.has-topbar {
+  padding-top: 70px;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent) !important;
+}
+
+.nav-link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white) !important;
+  margin: 0 8px;
+  transition: color 0.25s;
+}
+
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* =======================
+   Topbar (public pages)
+   ======================= */
+.topbar {
+  background: #0f172a !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.topbar .navbar-brand,
+.topbar .nav-link,
+.topbar .btn {
+  color: #fff !important;
+}
+
+.topbar .nav-link:hover,
+.topbar .nav-link.active {
+  color: var(--accent) !important;
+}
+
+/* =======================
+   Hero Sections
+   ======================= */
+.hero-section {
+  background: linear-gradient(135deg, #111827 0%, #1e293b 100%);
+  color: #fff;
+  padding: 5rem 0;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+
+/* BUG FIX: .user-hero had no CSS at all; it showed unstyled white background */
+.user-hero {
+  background: linear-gradient(135deg, #111827 0%, #1e3a5f 100%);
+  color: #fff;
+  padding: 4rem 1.5rem 3rem;
+  margin-bottom: 2rem;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+
+.hero-card {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.hero-card img,
+.product-card .product-img,
+.product-gallery img {
+  transition: transform 0.4s ease;
+}
+
+.hero-card:hover img,
+.product-card:hover .product-img,
+.product-gallery:hover img {
+  transform: scale(1.04);
+}
+
+/* =======================
+   Section Title
+   BUG FIX: First block set text-align:center; second block redefined the
+   selector without resetting it, so dashboard section-titles were also
+   centred despite needing left-alignment. Now unified with text-align:left.
+   Pages that need centred titles use text-center Bootstrap utility.
+   ======================= */
+.section-title {
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  text-align: left;
+}
+
+/* =======================
+   Cards
+   BUG FIX: The original .card rule set background:#111 (dark) and
+   color:#ddd. The Modern Theme only overrode specific sub-classes
+   (.card.rounded-4, .product-card, etc.) leaving plain .card elements
+   dark. Base .card is now white; dark variant is opt-in via .card-dark.
+   ======================= */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.14);
+}
+
+/* Explicit dark card variant (opt-in) */
+.card-dark {
+  background: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.hero-card,
+.offer-card,
+.dashboard-card,
+.product-card,
+.category-card,
+.card.rounded-4 {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* =======================
+   Card Image
+   ======================= */
+.card-img-top {
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.06);
+}
+
+/* =======================
+   Offer / Category / Product Cards
+   ======================= */
+.offer-card,
+.category-card,
+.dashboard-card,
+.product-card {
+  border-radius: 2rem;
+}
+
+.offer-card {
+  text-align: center;
+  padding: 2rem;
+}
+
+.offer-card i {
+  font-size: 2.2rem;
+}
+
+.offer-card h5,
+.dashboard-card h3,
+.category-card h5,
+.product-card h5 {
+  font-weight: 700;
+}
+
+.category-card {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  cursor: pointer;
+}
+
+.category-card .category-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+  background: rgba(255, 183, 3, 0.15);
+  border-radius: 1.5rem;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.product-card {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.product-card .product-img {
+  width: 100%;
+  min-height: 240px;
+  max-height: 340px;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card .btn {
+  border-radius: 1.2rem;
+}
+
+/* =======================
+   Product Gallery (detail page)
+   ======================= */
+.product-gallery {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.product-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+}
+
+/* =======================
+   Buttons
+   ======================= */
+.btn-primary {
+  background: var(--primary-color);
+  border: none;
+  transition: background 0.25s, transform 0.2s;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--hover-color);
+}
+
+.card:hover .btn-primary {
+  transform: translateY(-2px);
+}
+
+.btn-primary,
+.btn-warning {
+  border-radius: 999px;
+}
+
+/* =======================
+   Search box
+   ======================= */
+.search-box .form-control {
+  border-radius: 999px;
+}
+
+/* =======================
+   Footer
+   ======================= */
+.footer {
+  background: #0f172a;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 3rem 0;
+  font-size: 14px;
+}
+
+.footer h5, .footer h6 {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.25s;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 0.8rem;
+}
+
+.footer .copyright {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* =======================
+   Dashboard Layout
+   ======================= */
+.dashboard-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 280px;
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.dashboard-sidebar .sidebar-brand {
+  display: block;
+}
+
+.dashboard-sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 1.5rem;
+  padding: 0.6rem 1rem;
+}
+
+.dashboard-sidebar .nav-link.active,
+.dashboard-sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.dashboard-main {
+  flex: 1;
+  background: var(--bg-main);
+  min-width: 0; /* prevents flex child overflow */
+}
+
+.dashboard-card {
+  padding: 1.75rem;
+}
+
+/* =======================
+   Auth Page
+   ======================= */
+.auth-header {
+  background: #111827;
+}
+
+.auth-main {
+  padding: 4rem 0;
+}
+
+.auth-card {
+  background: transparent;
+}
+
+.auth-side-left {
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+
+.auth-side-right {
+  min-height: 580px;
+}
+
+.auth-side-right .form-label {
+  font-weight: 600;
+}
+
+.auth-side-left h1,
+.auth-side-left p,
+.auth-side-left .badge {
+  color: #fff;
+}
+
+/* =======================
+   Product detail meta
+   ======================= */
+.product-meta {
+  border-radius: 1.5rem;
+}
+
+/* =======================
+   Tables & Lists
+   ======================= */
+.list-group-item {
+  border-radius: 1rem !important;
+  margin-bottom: 0.5rem;
+}
+
+.table thead th {
+  border-top: 0;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr td {
+  vertical-align: middle;
+}
+
+/* =======================
+   Cart Badge
+   ======================= */
+.cart-badge {
+  display: inline-block;
+  min-width: 22px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--primary-color);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 12px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+/* =======================
+   Report boxes (admin)
+   ======================= */
+.report-box {
+  border-radius: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* =======================
+   Toast animation
+   ======================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =======================
+   Responsive
+   ======================= */
+@media (max-width: 991px) {
+  .dashboard-shell {
+    flex-direction: column;
+  }
+  .dashboard-sidebar {
+    width: 100%;
+    position: relative;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-section,
+  .user-hero {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .topbar .nav-link {
+    margin-bottom: 0.5rem;
+  }
+  .table thead {
+    display: none;
+  }
+  .table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+  .table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopify | Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="AdminDashboard">
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar bg-dark text-white">
+        <div class="p-4 border-bottom border-secondary">
+          <a href="index.html" class="sidebar-brand text-white fs-4 fw-bold">Shopify Admin</a>
+        </div>
+        <nav class="nav flex-column p-4 gap-2">
+          <a class="nav-link text-white active" href="admin-dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a class="nav-link text-white" href="#manage-users"><i class="fas fa-users me-2"></i>Manage Users</a>
+          <a class="nav-link text-white" href="#manage-sellers"><i class="fas fa-store me-2"></i>Manage Sellers</a>
+          <a class="nav-link text-white" href="#product-approval"><i class="fas fa-check-circle me-2"></i>Approve Products</a>
+          <a class="nav-link text-white" href="#orders"><i class="fas fa-clipboard-list me-2"></i>All Orders</a>
+          <a class="nav-link text-white" href="#analytics"><i class="fas fa-chart-pie me-2"></i>Analytics</a>
+          <button class="btn btn-outline-light mt-3" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+        </nav>
+      </aside>
+      <main class="dashboard-main">
+        <div class="container-fluid py-4">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+              <h1 class="h3">Admin Control Panel</h1>
+              <p class="text-muted mb-0">Monitor activity, manage accounts and approve marketplace content.</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.reload()"><i class="fas fa-sync-alt me-2"></i>Refresh</button>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-3">
+              <div class="dashboard-card p-4 rounded-4 shadow-sm text-primary">
+                <small class="text-uppercase fw-bold">Users</small>
+                <h3 id="admin-users-count">0</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dashboard-card p-4 rounded-4 shadow-sm text-success">
+                <small class="text-uppercase fw-bold">Sellers</small>
+                <h3 id="admin-sellers-count">0</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dashboard-card p-4 rounded-4 shadow-sm text-warning">
+                <small class="text-uppercase fw-bold">Products</small>
+                <h3 id="admin-products-count">0</h3>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dashboard-card p-4 rounded-4 shadow-sm text-info">
+                <small class="text-uppercase fw-bold">Orders</small>
+                <h3 id="admin-orders-count">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <section id="analytics" class="mb-5">
+            <div class="row g-4">
+              <div class="col-lg-4">
+                <div class="card rounded-4 shadow-sm p-4">
+                  <h5 class="mb-3">Sales Analytics</h5>
+                  <p class="mb-2"><strong>Total Revenue:</strong> ₹<span id="admin-revenue">0</span></p>
+                  <p class="mb-2"><strong>Conversion Rate:</strong> <span id="admin-conversion">0%</span></p>
+                  <p class="small text-muted">View product performance and buyer behavior at a glance.</p>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="card rounded-4 shadow-sm p-4">
+                  <h5 class="mb-3">Reports</h5>
+                  <div class="row g-3">
+                    <div class="col-md-4"><div class="report-box p-3 rounded-4 bg-primary text-white">Pending Approvals <strong id="admin-pending-products">0</strong></div></div>
+                    <div class="col-md-4"><div class="report-box p-3 rounded-4 bg-success text-white">Active Sellers <strong id="admin-active-sellers">0</strong></div></div>
+                    <div class="col-md-4"><div class="report-box p-3 rounded-4 bg-warning text-dark">New Users <strong id="admin-new-users">0</strong></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="manage-users" class="mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="section-title">Manage Users</h2>
+              <button class="btn btn-outline-secondary" onclick="renderAdminUsers()">Refresh</button>
+            </div>
+            <div id="admin-users" class="table-responsive">
+              <table class="table table-hover table-borderless align-middle text-nowrap bg-white rounded-4 shadow-sm">
+                <thead class="table-light">
+                  <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="manage-sellers" class="mb-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="section-title">Manage Sellers</h2>
+              <button class="btn btn-outline-secondary" onclick="renderAdminSellers()">Refresh</button>
+            </div>
+            <div id="admin-sellers" class="row g-4"></div>
+          </section>
+
+          <section id="product-approval" class="mb-5">
+            <h2 class="section-title mb-3">Approve Seller Products</h2>
+            <div id="admin-product-approval" class="row g-4"></div>
+          </section>
+
+          <section id="orders" class="mb-5">
+            <h2 class="section-title mb-3">All Orders</h2>
+            <div id="admin-orders" class="list-group"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/site.js"></script>
+  </body>
+</html>
